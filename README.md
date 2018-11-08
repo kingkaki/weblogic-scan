@@ -1,6 +1,6 @@
 # weblogic-scan
 weblogic 漏洞扫描工具
-~~妄想~~试图weblogic一把梭
+~~妄想~~试图weblogic一把梭  
 目前检测的功能
 
 - [x] console 页面探测 & 弱口令扫描
@@ -12,7 +12,8 @@ weblogic 漏洞扫描工具
 
 # USE
 
-**使用前请先填写`config.py`中的`server`参数，用以接受返回的数据。**
+**使用前请先填写`config.py`中的`server`参数**  
+推荐配合`http://ceye.io`之类的工具使用，server格式为`http://xxx.ceye.io`
 
 使用方式比较简单，目前支持两种模式
 
@@ -32,7 +33,7 @@ python3 weblogic-scan 127.0.0.1:7001
 
 console弱口令和CVE-2018-2628的扫描结果会直接在控制台中输出。
 
-uuid页面的SSRF以及wls-wsat反序列化会在server服务器中留下日志文件。
+uuid页面的SSRF以及wls-wsat反序列化会在server服务器中留下日志文件。  
 会在域名前带上受影响机子的地址，这样扫描多个地址的时候方便做区分。
 
 ![](1.png)
