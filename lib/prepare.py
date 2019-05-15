@@ -2,7 +2,7 @@
 # @Author: kingkk
 # @Date:   2018-11-08 15:09:07
 # @Last Modified by:   kingkk
-# @Last Modified time: 2019-05-15 19:11:45
+# @Last Modified time: 2019-05-15 19:59:48
 import re
 from urllib.parse import urlparse
 from lib.display import *
@@ -67,6 +67,7 @@ def mode2(url):
 		console(target)
 		CVE_2017_10271(target)			
 		CVE_2018_2628(target)
+		CNVD_C_2019_48814(target)
 	except requests.exceptions.ConnectionError as e:
 		info("[-] is busy: {}".format(target))
 	except requests.exceptions.ReadTimeout as e:
