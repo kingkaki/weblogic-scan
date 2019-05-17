@@ -2,7 +2,7 @@
 # @Author: kingkk
 # @Date:   2018-11-08 15:09:07
 # @Last Modified by:   King kaki
-# @Last Modified time: 2019-05-15 20:05:38
+# @Last Modified time: 2019-05-17 15:48:23
 import re
 from urllib.parse import urlparse
 from lib.display import *
@@ -47,10 +47,10 @@ def mode1():
 		targets = [url2target(target.strip()) for target in f.readlines()]
 	for target in targets:
 		try:
-			# uuid_SSRF(target)
-			# console(target)
-			# CVE_2017_10271(target)
-			# CVE_2018_2628(target)
+			uuid_SSRF(target)
+			console(target)
+			CVE_2017_10271(target)
+			CVE_2018_2628(target)
 			CNVD_C_2019_48814(target)
 		except requests.exceptions.ConnectionError as e:
 			info("[-] is busy: {}".format(target))
